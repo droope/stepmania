@@ -9,6 +9,7 @@
 
 #if defined(_MSC_VER)
 #pragma comment(lib, "version.lib")
+#import <time.h>
 #endif
 
 bool GetFileVersion( RString sFile, RString &sOut )
@@ -52,7 +53,12 @@ bool GetFileVersion( RString sFile, RString &sOut )
 	if( stat( sFile, &st ) != -1 )
 	{
 		struct tm t;
-		gmtime_r( &st.st_mtime, &t );
+#ifdef _MSC_VER
+
+		gmtime_s(&t, &st.st_mtime);
+#else
+		gmtime_r(&st.st_mtime, &t);
+#endif
 		if( !sOut.empty() )
 			sOut += " ";
 		sOut += ssprintf( "[%ib, %02i-%02i-%04i]", st.st_size, t.tm_mon+1, t.tm_mday, t.tm_year+1900 );

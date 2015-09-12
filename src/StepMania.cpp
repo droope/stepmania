@@ -422,6 +422,10 @@ static void AdjustForChangedSystemCapabilities()
 #include "archutils/Win32/VideoDriverInfo.h"
 #endif
 
+#if _MSC_VER == 1900
+#include "archutils/Win32/VideoDriverInfo.h"
+#endif
+
 #if defined(SUPPORT_OPENGL)
 #include "RageDisplay_OGL.h"
 #endif
