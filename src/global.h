@@ -11,6 +11,11 @@
 #pragma once
 #endif // _MSC_VER >= 1000
 
+/** This is for Visual Studio 2015. */
+#if defined(_WIN32) && !defined(WIN32)
+#define WIN32
+#endif
+
 /** @brief This macro is for INT8_MIN, etc. */
 #define __STDC_LIMIT_MACROS
 /** @brief This macro is for INT64_C, etc. */

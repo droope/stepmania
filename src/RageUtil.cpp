@@ -18,6 +18,11 @@
 #include <sys/stat.h>
 #include <math.h>
 
+#ifdef _MSC_VER
+// TODO: This is probably a bad idea
+#define PATH_MAX 4096
+#endif
+
 bool HexToBinary(const RString&, RString&);
 void utf8_sanitize(RString &);
 void UnicodeUpperLower(wchar_t *, size_t, const unsigned char *);

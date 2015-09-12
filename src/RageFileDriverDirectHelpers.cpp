@@ -19,11 +19,6 @@
 #include <io.h>
 #endif
 
-#if _MSC_VER == 1900
-#include <dirent.h>
-#include <winsock2.h>
-#endif
-
 RString DoPathReplace(const RString &sPath)
 {
 	RString TempPath = sPath;

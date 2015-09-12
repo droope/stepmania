@@ -25,12 +25,6 @@
 #include <io.h>
 #endif // !defined(WIN32)
 
-#if _MSC_VER == 1900
-#include <dirent.h>
-#include <winsock2.h>
-#endif
-
-
 /* Direct filesystem access: */
 static struct FileDriverEntry_DIR: public FileDriverEntry
 {
