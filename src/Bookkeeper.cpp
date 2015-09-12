@@ -10,6 +10,10 @@
 #include "XmlFileUtil.h"
 #include <ctime>
 
+#if defined(_MSC_VER)
+#include "time.h"
+#endif
+
 Bookkeeper*	BOOKKEEPER = NULL;	// global and accessible from anywhere in our program
 
 static const RString COINS_DAT = "Save/Coins.xml";
@@ -44,7 +48,12 @@ bool Bookkeeper::Date::operator<( const Date &rhs ) const
 void Bookkeeper::Date::Set( time_t t )
 {
 	tm ltime;
-	localtime_r( &t, &ltime );
+
+#ifdef _MSC_VER
+	localtime_s(&ltime, &t);
+#else
+	localtime_r(&t, &ltime);
+#endif
 
 	Set( ltime );
 }
@@ -174,7 +183,11 @@ void Bookkeeper::GetCoinsLastDays( int coins[NUM_LAST_DAYS] ) const
 {
 	time_t lOldTime = time(NULL);
 	tm time;
-	localtime_r( &lOldTime, &time );
+#ifdef _MSC_VER
+	localtime_s(&time, &lOldTime);
+#else
+	localtime_r(&lOldTime, &time);
+#endif
 
 	time.tm_hour = 0;
 
@@ -190,7 +203,11 @@ void Bookkeeper::GetCoinsLastWeeks( int coins[NUM_LAST_WEEKS] ) const
 {
 	time_t lOldTime = time(NULL);
 	tm time;
-	localtime_r( &lOldTime, &time );
+#ifdef _MSC_VER
+	localtime_s(&time, &lOldTime);
+#else
+	localtime_r(&lOldTime, &time);
+#endif
 
 	time = GetNextSunday( time );
 	time = GetYesterday( time );

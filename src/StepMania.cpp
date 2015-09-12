@@ -935,8 +935,12 @@ static void WriteLogHeader()
 	time_t cur_time;
 	time(&cur_time);
 	struct tm now;
-	localtime_r( &cur_time, &now );
-
+#ifdef _MSC_VER
+	localtime_s(&now, &cur_time);
+#else
+	localtime_r(&cur_time, &now);
+#endif
+	
 	LOG->Info( "Log starting %.4d-%.2d-%.2d %.2d:%.2d:%.2d",
 		1900+now.tm_year, now.tm_mon+1, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec );
 	LOG->Trace( " " );

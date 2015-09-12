@@ -413,7 +413,12 @@ struct tm GetLocalTime()
 {
 	const time_t t = time(NULL);
 	struct tm tm;
-	localtime_r( &t, &tm );
+#ifdef _MSC_VER
+	localtime_s(&tm, &t);
+#else
+	localtime_r(&t, &tm);
+#endif
+	
 	return tm;
 }
 

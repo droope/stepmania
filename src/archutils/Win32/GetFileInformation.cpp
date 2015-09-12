@@ -9,8 +9,9 @@
 
 #if defined(_MSC_VER)
 #pragma comment(lib, "version.lib")
-#import <time.h>
+#include "time.h"
 #endif
+
 
 bool GetFileVersion( RString sFile, RString &sOut )
 {
@@ -54,7 +55,6 @@ bool GetFileVersion( RString sFile, RString &sOut )
 	{
 		struct tm t;
 #ifdef _MSC_VER
-
 		gmtime_s(&t, &st.st_mtime);
 #else
 		gmtime_r(&st.st_mtime, &t);

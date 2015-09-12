@@ -85,8 +85,12 @@ void ScreenSetTime::Update( float fDelta )
 	iNow += m_TimeOffset;
 
 	tm now;
-	localtime_r( &iNow, &now );
-	
+#ifdef _MSC_VER
+	localtime_s(&now, &iNow);
+#else
+	localtime_r(&iNow, &now);
+#endif
+		
 	int iPrettyHour = now.tm_hour%12;
 	if( iPrettyHour == 0 )
 		iPrettyHour = 12;
@@ -117,8 +121,12 @@ void ScreenSetTime::ChangeValue( int iDirection )
 	time_t iAdjusted = iNow + m_TimeOffset;
 
 	tm adjusted;
-	localtime_r( &iAdjusted, &adjusted );
-	
+#ifdef _MSC_VER
+	localtime_s(&adjusted, &iAdjusted);
+#else
+	localtime_r(&iAdjusted, &adjusted);
+#endif
+		
 	//tm now = GetLocalTime();
 	switch( m_Selection )
 	{
@@ -198,7 +206,11 @@ bool ScreenSetTime::MenuStart( const InputEventPlus &input )
 		time_t iAdjusted = iNow + m_TimeOffset;
 
 		tm adjusted;
-		localtime_r( &iAdjusted, &adjusted );
+#ifdef _MSC_VER
+		localtime_s(&adjusted, &iAdjusted);
+#else
+		localtime_r(&iAdjusted, &adjusted);
+#endif
 
 		HOOKS->SetTime( adjusted );
 

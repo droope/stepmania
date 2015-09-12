@@ -60,7 +60,12 @@ DateTime DateTime::GetNowDateTime()
 {
 	time_t now = time(NULL);
 	tm tNow;
-	localtime_r( &now, &tNow );
+#ifdef _MSC_VER
+	localtime_s(&tNow, &now);
+#else
+	localtime_r(&now, &tNow);
+#endif
+
 	DateTime dtNow;
 #define COPY_M( v ) dtNow.v = tNow.v;
 	COPY_M( tm_year );
@@ -277,7 +282,11 @@ tm AddDays( tm start, int iDaysToMove )
 	seconds += iDaysToMove*60*60*24;
 
 	tm time;
-	localtime_r( &seconds, &time );
+#ifdef _MSC_VER
+	localtime_s(&time, &seconds);
+#else
+	localtime_r(&seconds, &time);
+#endif
 	return time;
 }
 
@@ -311,7 +320,12 @@ tm GetDayInYearAndYear( int iDayInYearIndex, int iYear )
 	when.tm_year = iYear - 1900;
 	time_t then = mktime( &when );
 
-	localtime_r( &then, &when );
+#ifdef _MSC_VER
+	localtime_s(&when, &then);
+#else
+	localtime_r(&then, &when);
+#endif
+	
 	return when;
 }
 

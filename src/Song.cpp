@@ -1267,8 +1267,12 @@ bool Song::SaveToSSCFile( RString sPath, bool bSavingCache, bool autosave )
 		time_t cur_time;
 		time( &cur_time );
 		struct tm now;
-		localtime_r( &cur_time, &now );
-
+#ifdef _MSC_VER
+		localtime_s(&now, &cur_time);
+#else
+		localtime_r(&cur_time, &now);
+#endif
+		
 		sBackupFile += ssprintf( "-%04i-%02i-%02i--%02i-%02i-%02i",
 			1900+now.tm_year, now.tm_mon+1, now.tm_mday, now.tm_hour, now.tm_min, now.tm_sec );
 		sBackupFile = SetExtension( sBackupFile, sExt );
