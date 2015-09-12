@@ -120,6 +120,11 @@ LTC_EXPORT int   LTC_CALL XSTRCMP(const char *s1, const char *s2);
 	#define LTC_NO_BSWAP
 #endif
 
+#if _MSC_VER == 1900
+#define ENDIAN_LITTLE 
+#define ENDIAN_64BITWORD
+#endif
+
 /* #define ENDIAN_LITTLE */
 /* #define ENDIAN_BIG */
 
