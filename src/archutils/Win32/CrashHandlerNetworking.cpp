@@ -8,8 +8,9 @@
 #include "Foreach.h"
 
 #if defined(WINDOWS)
-#include <windows.h>
+// http://stackoverflow.com/questions/11726958/cant-include-winsock2-h-in-msvc-2010
 #include <winsock2.h>
+#include <windows.h>
 #pragma comment(lib, "wsock32.lib")
 #pragma comment(lib, "ws2_32.lib")
 #endif
@@ -361,7 +362,7 @@ void NetworkStream_Win32::Open( const RString &sHost, int iPort, ConnectionType 
 		pHost = (hostent *) pBuf;
 
 		ResolveMessageWindow mw;
-		m_hResolve = WSAAsyncGetHostByName(
+		m_hResolve = (HANDLE) WSAAsyncGetHostByName(
 			mw.GetHwnd(),
 			WM_USER,
 			m_sHost,
@@ -398,7 +399,7 @@ void NetworkStream_Win32::Open( const RString &sHost, int iPort, ConnectionType 
 		addr.sin_port = htons( (uint16_t) iPort );
 
 		m_Mutex.Lock();
-		m_Socket = socket( PF_INET, SOCK_STREAM, IPPROTO_TCP );
+		m_Socket = (SOCKET) socket( PF_INET, SOCK_STREAM, IPPROTO_TCP );
 		if( m_Socket == INVALID_SOCKET )
 		{
 			int iError = WSAGetLastError();
